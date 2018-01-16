@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AppModel} from './app.model';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
@@ -11,16 +11,20 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 export class AppComponent  implements OnInit {
   emailForm: FormGroup;
   nameForm: FormGroup;
-  constructor(private em: FormBuilder) {}
+  addressForm: FormGroup;
+  constructor(private em: FormBuilder, private ad: FormBuilder) {}
   model = new AppModel ('', '');
 
   ngOnInit() {
-    this.emailForm = this.em.group({
+    this.emailForm = this.em.group({'mail': new FormControl(null, Validators.required),
         emails: this.em.array([this.Inemails()]),
     });
     this.nameForm = new FormGroup({
-        'fname': new FormControl(null),
-        'lname': new FormControl(null)
+        'fname': new FormControl(null, Validators.required),
+        'lname': new FormControl(null, Validators.required)
+    });
+    this.addressForm = this.ad.group({'addrs': new FormControl(null, Validators.required),
+        address: this.ad.array([this.Inaddress()]),
     });
   }
   Inemails() {
@@ -37,5 +41,20 @@ export class AppComponent  implements OnInit {
     const control = <FormArray>this.emailForm.controls['emails'];
     control.removeAt(index);
   }
+  Inaddress() {
+    return this.ad.group({
+        address: ['']
+    });
+  }
+  addNewAddress() {
+    const control = <FormArray>this.addressForm.controls['address'];
+    control.push(this.Inaddress());
+  }
+  deleteAddress(index: number) {
+    const control = <FormArray>this.addressForm.controls['address'];
+    control.removeAt(index);
+  }
 }
+
+
 
