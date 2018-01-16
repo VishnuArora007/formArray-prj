@@ -1,26 +1,29 @@
 <div class="container">
-<div class="form-group">
+<form [formGroup]="nameForm">
+     <div class="form-group">
     <label for="fname"> First Name</label>
     <input type="text" class="form-control" id="fname"
+           formControlName="fname"
            [(ngModel)]= "model.fname" name="fname"
-           placeholder="First name" #fname="ngModel" required>
+           placeholder="First name"  required>
     <div [hidden]="fname.valid || fname.pristine">
         <span class="help-block">Name is required</span>
     </div>
 </div>
 <div class="form-group">
     <label for="lname"> Last Name</label>
-    <input type="text" class="form-control" id="lname"
+    <input type="text" class="form-control"
+           id="lname" formControlName="lname"
            [(ngModel)]="model.lname" name="lname"
-           placeholder="First name" #lname="ngModel" required>
+           placeholder="First name"  required>
     <div [hidden]="lname.valid || lname.pristine">
         <span class="help-block">Name is required</span>
     </div>
 </div>
-
-<h3 class="page-header"> Add Email</h3>
+</form>
+ <form [formGroup]="emailForm">
+    <h3 class="page-header"> Add Email</h3>
 <button type="button" (click)="addNewEmail()" class="btn btn-primary">Add Email</button><br>
-<form [formGroup]="emailForm">
     <div formArrayName="emails">
         <div *ngFor="let email of emailForm.controls.emails.controls;
                 let i=index"  [formGroupName]="i">
@@ -38,7 +41,6 @@
                     <span class="help-block">
                     Please enter a email address
                     </span>
-
             </div>
             <button *ngIf="emailForm.controls.emails.controls.length > 1"
                     (click)="deleteEmail(i)" class="btn btn-danger">Delete Email</button>
