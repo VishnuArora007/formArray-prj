@@ -1,20 +1,48 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+<div class="form-group">
+    <label for="fname"> First Name</label>
+    <input type="text" class="form-control" id="fname"
+           [(ngModel)]= "model.fname" name="fname"
+           placeholder="First name" #fname="ngModel" required>
+    <div [hidden]="fname.valid || fname.pristine">
+        <span class="help-block">Name is required</span>
+    </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="form-group">
+    <label for="lname"> Last Name</label>
+    <input type="text" class="form-control" id="lname"
+           [(ngModel)]="model.lname" name="lname"
+           placeholder="First name" #lname="ngModel" required>
+    <div [hidden]="lname.valid || lname.pristine">
+        <span class="help-block">Name is required</span>
+    </div>
+</div>
 
+<h3 class="page-header"> Add Email</h3>
+<button type="button" (click)="addNewEmail()" class="btn btn-primary">Add Email</button><br>
+<form [formGroup]="emailForm">
+    <div formArrayName="emails">
+        <div *ngFor="let email of emailForm.controls.emails.controls;
+                let i=index"  [formGroupName]="i">
+            <h4>Email #{{ i + 1 }}</h4>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input formControlName="mail" class="form-control"
+                       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                       placeholder="ex@example.com"  required email>
+                <div [hidden] = "email.valid || email.pristine">
+                    <div [hidden]="!email.hasError('pattern')">Email format should be
+                        <small>joe@abc.com</small>
+                    </div>
+                </div>
+                    <span class="help-block">
+                    Please enter a email address
+                    </span>
+
+            </div>
+            <button *ngIf="emailForm.controls.emails.controls.length > 1"
+                    (click)="deleteEmail(i)" class="btn btn-danger">Delete Email</button>
+        </div>
+    </div>
+</form>
+</div>
