@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AppModel} from './app.model';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, 
+  FormControl, FormGroup, Validators} 
+  from '@angular/forms';
 
 
 @Component({
@@ -16,14 +18,15 @@ export class AppComponent  implements OnInit {
   model = new AppModel ('', '');
 
   ngOnInit() {
-    this.emailForm = this.em.group({'mail': new FormControl(null, Validators.required),
+    this.emailForm = this.em.group({ 'mail': ['',
+   Validators.required],
         emails: this.em.array([this.Inemails()]),
     });
     this.nameForm = new FormGroup({
         'fname': new FormControl(null, Validators.required),
         'lname': new FormControl(null, Validators.required)
     });
-    this.addressForm = this.ad.group({'addrs': new FormControl(null, Validators.required),
+    this.addressForm = this.ad.group({ 'addrs': ['', [Validators.required]],
         address: this.ad.array([this.Inaddress()]),
     });
   }
@@ -54,7 +57,9 @@ export class AppComponent  implements OnInit {
     const control = <FormArray>this.addressForm.controls['address'];
     control.removeAt(index);
   }
+  
 }
+
 
 
 
